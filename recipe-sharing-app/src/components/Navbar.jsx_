@@ -1,0 +1,23 @@
+// src/components/Navbar.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Navbar = () => {
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">Recipe List</Link>
+        </li>
+        <li>
+          <Link to="/favorites">My Favorites</Link>
+        </li>
+        <li>
+          <Link to="/recommendations">Recommendations</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;
