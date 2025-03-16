@@ -24,4 +24,10 @@
     "globals": "^15.15.0",
     "vite": "^6.2.0"
   }
+  "scripts": {
+  "test": "jest"
+}
+"jest": {
+  "testEnvironment": "jsdom"
+}
 }
