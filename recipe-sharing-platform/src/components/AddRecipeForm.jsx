@@ -11,9 +11,9 @@ const AddRecipeForm = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [ingredients, setIngredients] = useState([]);
-  const [instructions, setInstructions] = useState([]);
+  const [steps, setSteps] = useState([]);
   const [ingredientInput, setIngredientInput] = useState('');
-  const [instructionInput, setInstructionInput] = useState('');
+  const [stepInput, setStepInput] = useState('');
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -29,7 +29,7 @@ const AddRecipeForm = () => {
       description,
       image,
       ingredients,
-      instructions,
+      steps, // Ensure steps are included in the final object
     };
 
     addRecipe(newRecipe);
@@ -44,11 +44,11 @@ const AddRecipeForm = () => {
     }
   };
 
-  // Add instruction to list
-  const handleAddInstruction = () => {
-    if (instructionInput.trim()) {
-      setInstructions([...instructions, instructionInput]);
-      setInstructionInput('');
+  // Add step to list
+  const handleAddStep = () => {
+    if (stepInput.trim()) {
+      setSteps([...steps, stepInput]);
+      setStepInput('');
     }
   };
 
@@ -131,32 +131,32 @@ const AddRecipeForm = () => {
           </ul>
         </div>
 
-        {/* Instructions */}
+        {/* Steps */}
         <div>
-          <label className="block text-gray-700 font-medium">Instructions:</label>
+          <label className="block text-gray-700 font-medium">Steps:</label>
           <div className="flex items-center space-x-4">
             <input
               type="text"
-              value={instructionInput}
-              onChange={(e) => setInstructionInput(e.target.value)}
+              value={stepInput}
+              onChange={(e) => setStepInput(e.target.value)}
               className="flex-1 p-2 border rounded"
-              placeholder="Add an instruction step"
+              placeholder="Add a step"
             />
             <button
               type="button"
-              onClick={handleAddInstruction}
+              onClick={handleAddStep}
               className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
             >
               Add
             </button>
           </div>
           <ol className="mt-2 space-y-1">
-            {instructions.map((step, index) => (
+            {steps.map((step, index) => (
               <li key={index} className="flex justify-between items-center">
                 {step}
                 <button
                   type="button"
-                  onClick={() => handleRemoveItem(index, setInstructions)}
+                  onClick={() => handleRemoveItem(index, setSteps)}
                   className="text-red-500 hover:underline"
                 >
                   Remove
