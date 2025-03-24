@@ -6,7 +6,7 @@ const AddRecipeForm = () => {
   const navigate = useNavigate();
   const addRecipe = useRecipeStore((state) => state.addRecipe);
 
-  // State for recipe fields
+  // State for form fields
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
@@ -14,14 +14,27 @@ const AddRecipeForm = () => {
   const [steps, setSteps] = useState([]);
   const [ingredientInput, setIngredientInput] = useState('');
   const [stepInput, setStepInput] = useState('');
+  
+  // State for form errors
+  const [errors, setErrors] = useState({});
+
+  // Validate form fields
+  const validate = () => {
+    const newErrors = {};
+
+    if (!title.trim()) newErrors.title = 'Title is required';
+    if (!description.trim()) newErrors.description = 'Description is required';
+    if (ingredients.length === 0) newErrors.ingredients = 'At least one ingredient is required';
+    if (steps.length === 0) newErrors.steps = 'At least one step is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !description) {
-      alert('Title and description are required!');
-      return;
-    }
+    if (!validate()) return; // Validate before submitting
 
     const newRecipe = {
       id: Date.now(),
@@ -29,14 +42,14 @@ const AddRecipeForm = () => {
       description,
       image,
       ingredients,
-      steps, // Ensure steps are included in the final object
+      steps,
     };
 
     addRecipe(newRecipe);
     navigate('/');
   };
 
-  // Add ingredient to list
+  // Add ingredient
   const handleAddIngredient = () => {
     if (ingredientInput.trim()) {
       setIngredients([...ingredients, ingredientInput]);
@@ -44,7 +57,7 @@ const AddRecipeForm = () => {
     }
   };
 
-  // Add step to list
+  // Add step
   const handleAddStep = () => {
     if (stepInput.trim()) {
       setSteps([...steps, stepInput]);
@@ -52,7 +65,7 @@ const AddRecipeForm = () => {
     }
   };
 
-  // Remove item from a list
+  // Remove item (ingredient or step)
   const handleRemoveItem = (index, setList) => {
     setList((prev) => prev.filter((_, i) => i !== index));
   };
@@ -72,6 +85,7 @@ const AddRecipeForm = () => {
             className="w-full p-2 border rounded mt-1"
             required
           />
+          {errors.title && <p className="text-red-500">{errors.title}</p>}
         </div>
 
         {/* Description */}
@@ -83,9 +97,10 @@ const AddRecipeForm = () => {
             className="w-full p-2 border rounded mt-1"
             required
           />
+          {errors.description && <p className="text-red-500">{errors.description}</p>}
         </div>
 
-        {/* Image URL */}
+        {/* Image URL (optional) */}
         <div>
           <label className="block text-gray-700 font-medium">Image URL (optional):</label>
           <input
@@ -115,6 +130,7 @@ const AddRecipeForm = () => {
               Add
             </button>
           </div>
+          {errors.ingredients && <p className="text-red-500">{errors.ingredients}</p>}
           <ul className="mt-2 space-y-1">
             {ingredients.map((ingredient, index) => (
               <li key={index} className="flex justify-between items-center">
@@ -140,42 +156,4 @@ const AddRecipeForm = () => {
               value={stepInput}
               onChange={(e) => setStepInput(e.target.value)}
               className="flex-1 p-2 border rounded"
-              placeholder="Add a step"
-            />
-            <button
-              type="button"
-              onClick={handleAddStep}
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-            >
-              Add
-            </button>
-          </div>
-          <ol className="mt-2 space-y-1">
-            {steps.map((step, index) => (
-              <li key={index} className="flex justify-between items-center">
-                {step}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveItem(index, setSteps)}
-                  className="text-red-500 hover:underline"
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Save Recipe
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default AddRecipeForm;
+              placeholder
