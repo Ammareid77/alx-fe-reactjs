@@ -1,6 +1,7 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import TodoList from "../path/to/TodoList"; // Adjust the import path accordingly
+import { render, screen, fireEvent } from "@testing-library/react";
+import TodoList from "../components/TodoList"; // Adjust path as needed
+
 
 describe("TodoList Component", () => {
   
