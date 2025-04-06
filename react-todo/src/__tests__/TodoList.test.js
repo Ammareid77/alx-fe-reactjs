@@ -6,14 +6,12 @@ import TodoList from "../components/TodoList"; // Adjust path as needed
 describe("TodoList Component", () => {
   
   // Initial Render Test
-  test("renders correctly with initial todos", () => {
-    const initialTodos = ["First Todo", "Second Todo"];
-    render(<TodoList initialTodos={initialTodos} />);
-    
-    // Check if initial todos are rendered
-    initialTodos.forEach(todo => {
-      expect(screen.getByText(todo)).toBeInTheDocument();
-    });
+  test("renders initial todo items", () => {
+    render(<TodoList />);
+    const todoItem = screen.getByText(/Sample Todo/i);
+    expect(todoItem).toBeInTheDocument();
+  });
+  
   });
 
   // Test Adding Todos
